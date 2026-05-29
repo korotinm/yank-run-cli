@@ -2,16 +2,17 @@ BINARY  := yank
 PKG     := github.com/korotinm/yank-run-cli
 VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 COMMIT  ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo none)
-LDFLAGS := -s -w -X $(PKG)/cmd.Version=$(VERSION) -X $(PKG)/cmd.Commit=$(COMMIT)
+LDFLAGS := -s -w -X $(PKG)/internal/cli.Version=$(VERSION) -X $(PKG)/internal/cli.Commit=$(COMMIT)
+MAIN    := ./cmd/yank
 
 .PHONY: build install vet fmt clean cross
 
 build:
 	@mkdir -p bin
-	go build -trimpath -ldflags '$(LDFLAGS)' -o bin/$(BINARY) .
+	go build -trimpath -ldflags '$(LDFLAGS)' -o bin/$(BINARY) $(MAIN)
 
 install:
-	go install -trimpath -ldflags '$(LDFLAGS)' .
+	go install -trimpath -ldflags '$(LDFLAGS)' $(MAIN)
 
 vet:
 	go vet ./...
@@ -35,5 +36,5 @@ cross: clean
 		ext=""; [ "$$os" = "windows" ] && ext=".exe"; \
 		out="dist/$(BINARY)-$(VERSION)-$$os-$$arch$$ext"; \
 		echo "→ $$out"; \
-		GOOS=$$os GOARCH=$$arch go build -trimpath -ldflags '$(LDFLAGS)' -o $$out . || exit 1; \
+		GOOS=$$os GOARCH=$$arch go build -trimpath -ldflags '$(LDFLAGS)' -o $$out $(MAIN) || exit 1; \
 	done
