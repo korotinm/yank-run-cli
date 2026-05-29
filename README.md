@@ -19,7 +19,7 @@ make install            # → $GOBIN/yank
 Or directly:
 
 ```bash
-go install github.com/korotinm/yank-run-cli@latest
+go install github.com/korotinm/yank-run-cli/cmd/yank@latest
 ```
 
 ## Quick start
