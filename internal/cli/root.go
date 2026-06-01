@@ -25,7 +25,10 @@ var (
 	flagNoColor bool
 )
 
-const defaultURL = "https://api.yank.run"
+const (
+	defaultURL    = "https://api.yank.run"
+	defaultWebURL = "https://yank.run"
+)
 
 var rootCmd = &cobra.Command{
 	Use:   "yank",
@@ -36,7 +39,7 @@ Search, store, and run code snippets without leaving your shell.
 
 Configuration via env vars:
   YANK_URL      backend API base URL (default: https://api.yank.run)
-  YANK_WEB_URL  frontend URL used by 'yank open'
+  YANK_WEB_URL  frontend URL used by 'yank open' (default: https://yank.run)
   NO_COLOR      disable ANSI colors when set (any value)`,
 	SilenceUsage:  true,
 	SilenceErrors: true,

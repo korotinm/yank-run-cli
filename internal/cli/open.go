@@ -17,8 +17,8 @@ var openCmd = &cobra.Command{
 	Long: `Open a snippet URL in the user's default browser.
 
 URL resolution:
-  1. If YANK_WEB_URL is set: open ${YANK_WEB_URL}/${id}
-  2. Otherwise: open ${YANK_URL}/api/snippets/${id} (raw JSON)`,
+  1. ${YANK_WEB_URL}/${id}  if YANK_WEB_URL is set
+  2. https://yank.run/${id}  otherwise (default frontend)`,
 	Args: cobra.ExactArgs(1),
 	RunE: runOpen,
 }
@@ -33,12 +33,11 @@ func runOpen(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	var url string
-	if web := strings.TrimRight(os.Getenv("YANK_WEB_URL"), "/"); web != "" {
-		url = fmt.Sprintf("%s/%s", web, id)
-	} else {
-		url = fmt.Sprintf("%s/api/snippets/%s", strings.TrimRight(flagURL, "/"), id)
+	web := strings.TrimRight(os.Getenv("YANK_WEB_URL"), "/")
+	if web == "" {
+		web = defaultWebURL
 	}
+	url := fmt.Sprintf("%s/%s", web, id)
 
 	if err := browser.OpenURL(url); err != nil {
 		return fmt.Errorf("open browser: %w", err)
