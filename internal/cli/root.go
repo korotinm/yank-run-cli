@@ -3,6 +3,7 @@ package cli
 import (
 	"fmt"
 	"os"
+	"runtime/debug"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -52,6 +53,8 @@ func Execute() {
 }
 
 func init() {
+	resolveVersion()
+
 	urlDefault := os.Getenv("YANK_URL")
 	if urlDefault == "" {
 		urlDefault = defaultURL
@@ -64,6 +67,52 @@ func init() {
 
 	rootCmd.Version = fmt.Sprintf("%s (commit %s)", Version, Commit)
 	rootCmd.SetVersionTemplate("yank {{.Version}}\n")
+}
+
+// resolveVersion fills Version/Commit from runtime/debug.BuildInfo when the
+// Makefile's ldflags weren't used (e.g. `go install <module>@<ver>`). When the
+// linker has already injected real values, this function is a no-op.
+func resolveVersion() {
+	if Version != "dev" && Commit != "none" {
+		return
+	}
+	bi, ok := debug.ReadBuildInfo()
+	if !ok {
+		return
+	}
+	// Module version: a tag like "v0.1.0", a pseudo-version, or "(devel)"
+	// when built from a local checkout without go install.
+	if Version == "dev" && bi.Main.Version != "" && bi.Main.Version != "(devel)" {
+		Version = bi.Main.Version
+	}
+	// VCS settings are present for `go install module@ver` and for `go build`
+	// from inside a git tree (Go ≥1.18). Absent for `go run`.
+	var (
+		rev      string
+		modified bool
+	)
+	for _, s := range bi.Settings {
+		switch s.Key {
+		case "vcs.revision":
+			rev = s.Value
+		case "vcs.modified":
+			modified = s.Value == "true"
+		}
+	}
+	if Commit == "none" && rev != "" {
+		short := rev
+		if len(short) > 7 {
+			short = short[:7]
+		}
+		if modified {
+			short += "-dirty"
+		}
+		Commit = short
+	}
+	// If we still have no Version but got a revision, surface it instead of "dev".
+	if Version == "dev" && rev != "" {
+		Version = Commit
+	}
 }
 
 // newClient builds the API client with current global flag values.
