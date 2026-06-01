@@ -64,7 +64,7 @@ Environment variables:
 | Var | Default | Effect |
 |---|---|---|
 | `YANK_URL`     | `https://api.yank.run` | backend API base URL (set to `http://localhost:8080` for local backend dev) |
-| `YANK_WEB_URL` | unset | frontend URL used by `yank open` |
+| `YANK_WEB_URL` | `https://yank.run` | frontend URL used by `yank open` |
 | `NO_COLOR`     | unset | disable ANSI colors when set |
 
 CLI flags (`--url`, `--timeout`, `--json`, `--no-color`) always override env.
