@@ -10,7 +10,7 @@ import (
 	"github.com/korotinm/yank-run-cli/internal/state"
 )
 
-// Exit codes per CLI_PLAN.md.
+// Process exit codes used across all commands. See README for the contract.
 const (
 	ExitOK            = 0
 	ExitUsage         = 2 // client-side validation / conflicting flags
