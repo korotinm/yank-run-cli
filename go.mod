@@ -1,6 +1,6 @@
 module github.com/korotinm/yank-run-cli
 
-go 1.26.3
+go 1.26
 
 require (
 	github.com/atotto/clipboard v0.1.4
