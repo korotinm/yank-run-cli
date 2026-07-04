@@ -4,9 +4,17 @@ Command-line client for [yank.run](https://yank.run) — search, store, and
 run code snippets without leaving your terminal.
 
 ```bash
-yank search vault kubectl     # find a snippet
-yank show 0                   # eyeball the first result
-yank cat 0 | bash             # run it
+yank search ssh tunnel                # find a snippet
+yank show 0                           # eyeball the first result
+yank cat 0 | bash                     # run it
+
+# store a snippet — the body (-b) is all you need
+yank push -b 'ssh -L 8080:localhost:80 user@server'
+
+# title, description, tags and author are optional
+yank push -b 'ssh -L 8080:localhost:80 user@server' \
+  -t "Local port-forward" -d "remote :80 → local :8080" \
+  --tag ssh,net --author '@me'
 ```
 
 ## Install
@@ -28,20 +36,6 @@ cd yank-run-cli
 make install            # → $(go env GOPATH)/bin/yank
 # or just build locally:
 make build              # → ./bin/yank
-```
-
-## Quick start
-
-```bash
-# Store a snippet (body from -b, -f, or piped stdin)
-yank push -b 'kubectl get pods -A' -t "List pods" --tag k8s
-
-# Search, then act on a result by its index
-yank search vault kubectl
-yank show 0                     # human-readable view of the first hit
-yank cat 0 | bash               # print its body and run it
-yank copy 0                     # put its body on the clipboard
-yank open 0                     # open it in the browser
 ```
 
 ## Commands
@@ -103,17 +97,6 @@ the environment.
 | 3 | not found, or invalid snippet reference |
 | 4 | rate limited |
 | 5 | server or network error (also clipboard failures) |
-
-## Development
-
-```bash
-make build              # local ./bin/yank
-make cross              # cross-compiled binaries in ./dist
-make vet                # go vet
-make fmt                # gofmt -s
-```
-
-`yank --version` reports the build version, embedded at compile time.
 
 ## License
 
