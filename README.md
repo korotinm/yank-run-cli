@@ -1,5 +1,9 @@
 # yank-run-cli
 
+<p align="center">
+  <img src="assets/hero.svg" alt="yank CLI: search for ssh-tunnel snippets, then print one by its index" width="720">
+</p>
+
 Command-line client for [yank.run](https://yank.run) — search, store, and
 run code snippets without leaving your terminal.
 

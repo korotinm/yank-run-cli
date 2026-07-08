@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 312" width="820" height="312" role="img" aria-label="Terminal demo of the yank CLI: searching for ssh tunnel snippets, then printing one by its index.">
+  <defs>
+    <style>
+      .mono { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; font-size: 15px; }
+      .prompt { fill: #3ddc97; }
+      .cmd    { fill: #eaf3ee; }
+      .dim    { fill: #6e8a7d; }
+      .out    { fill: #cdd9d2; }
+      .hit    { fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect x="8" y="8" width="804" height="296" rx="12" fill="#0d1411" stroke="#22302a" stroke-width="1"/>
+  <path d="M8 20 A12 12 0 0 1 20 8 H800 A12 12 0 0 1 812 20 V44 H8 Z" fill="#16201b"/>
+  <line x1="8" y1="44" x2="812" y2="44" stroke="#22302a" stroke-width="1"/>
+  <circle cx="30" cy="26" r="6" fill="#ff5f56"/>
+  <circle cx="52" cy="26" r="6" fill="#febc2e"/>
+  <circle cx="74" cy="26" r="6" fill="#28c840"/>
+  <text x="410" y="31" text-anchor="middle" class="mono dim" style="font-size:13px">yank — the command register</text>
+
+  <text x="28" y="82"  class="mono" xml:space="preserve"><tspan class="prompt">$ </tspan><tspan class="prompt">yank</tspan><tspan class="cmd"> search ssh tunnel</tspan></text>
+
+  <text x="28" y="110" class="mono dim" xml:space="preserve">  #   ID         PREVIEW</text>
+  <text x="28" y="136" class="mono" xml:space="preserve"><tspan class="dim">  0   e1d9c3a7   </tspan><tspan class="out">ssh -L 8080:localhost:80 user@server</tspan></text>
+  <text x="28" y="162" class="mono" xml:space="preserve"><tspan class="dim">  1   7f3a9c4d   </tspan><tspan class="out">autossh -M 0 -f -N -L 5432:db:5432 jump</tspan></text>
+  <text x="28" y="188" class="mono" xml:space="preserve"><tspan class="dim">  2   3b2a1f9c   </tspan><tspan class="out">ssh -D 1080 -q -N bastion.example.com</tspan></text>
+
+  <text x="28" y="230" class="mono" xml:space="preserve"><tspan class="prompt">$ </tspan><tspan class="prompt">yank</tspan><tspan class="cmd"> cat 0</tspan></text>
+  <text x="28" y="256" class="mono hit" xml:space="preserve">ssh -L 8080:localhost:80 user@server</text>
+  <rect x="28" y="272" width="10" height="18" fill="#3ddc97"/>
+</svg>
