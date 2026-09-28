@@ -55,6 +55,20 @@ make build              # → ./bin/yank
 
 Run `yank <command> --help` for the full flag list of any command.
 
+## Search
+
+`yank search` matches **whole words**, case-insensitively, across a
+snippet's title, description and body:
+
+- all words must be present — `yank search ssh tunnel` finds snippets
+  containing both `ssh` and `tunnel`;
+- no word forms — `pod` does not match `pods`;
+- no prefixes — `kube` does not match `kubectl`;
+- tags are not searched.
+
+If a search comes back empty, try the exact word as it appears in the
+command (`kubectl`, `pods`) or fewer words.
+
 ## Snippet references
 
 Commands that operate on a single snippet (`cat`, `show`, `copy`, `open`)

@@ -21,10 +21,16 @@ var (
 var searchCmd = &cobra.Command{
 	Use:   "search TERMS...",
 	Short: "Full-text search snippets",
-	Long: `Search snippets by full-text query. Terms are joined by spaces.
+	Long: `Search snippets by title, description and body.
 
-Results are cached to ~/.cache/yank/last-search.json so that follow-up
-commands can refer to hits by their 0-based index (e.g. 'yank cat 0').`,
+Matching is by whole words, case-insensitive:
+  - all terms must be present (AND)
+  - no word forms: 'pod' does not match 'pods'
+  - no prefixes:   'kube' does not match 'kubectl'
+  - tags are not searched
+
+Results are remembered so that follow-up commands can refer to hits by
+their 0-based index (e.g. 'yank cat 0').`,
 	Example: `  yank search vault kubectl
   yank search -n 5 docker
   yank search vault | fzf | awk '{print $1}' | xargs yank cat`,
